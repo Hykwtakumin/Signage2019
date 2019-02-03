@@ -1,13 +1,13 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+import * as express from "express";
+import * as bodyParser from "body-parser";
 const app = express();
 const port = process.env.PORT || 3000;
 
 //EJSをViewエンジンとして用いるよう設定
 app.set("view engine", "ejs");
-
 //bodyParserを使用
 app.use(bodyParser.urlencoded({extended: true}));
+//staticファイルをpublicから配信
 app.use(express.static("public"));
 
 //トップページにアクセスされた場合
