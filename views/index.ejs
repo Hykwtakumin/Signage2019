@@ -3,7 +3,136 @@
     <title>
         <%- title %>
     </title>
+
+    <style>
+        #root {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-between;
+        }
+
+        .listItem {
+            background-color: azure;
+            width: 23%;
+            height: 30%
+        }
+
+        .listItemImg {
+            width: 23%;
+        }
+
+    </style>
+
     <script>
+        /*JSONを保存して格納する*/
+        let osusumeList = [];
+
+        /*8番ラズパイのLinksを監視する*/
+        const observeReaderId = "192.168.0.208";
+        /*取得したlinksをローカルの配列として保持する*/
+        let storedLinks = [];
+        /*参加者情報のテーブルを取ってくる*/
+        let userInfoTable = [];
+
+        /*参加者のプロフィールを取ってくる関数*/
+        const getUserInfo = async () => {
+            const endPointUrl = `http://192.168.0.200/info`;
+
+            const request = await fetch(endPointUrl).catch(e => console.error(e));
+            const infoLinks = await request.json();
+
+            userInfoTable = infoLinks
+            console.dir(userInfoTable);
+        };
+
+        /*Listを絞り込む関数*/
+        const fiterList = async (id) => {
+            const user = userInfoTable.find(it => {
+                return it.id === id
+            });
+
+            const userFavWords = user.keywords;
+
+            console.dir(userFavWords);
+
+            /*userFavWords内の単語があるかどうか調べる*/
+            const isContained = (list) => {
+                // userFavWords.some(word => {
+                //     if (list.includes(word)) {
+                //         return true
+                //     }
+                // })
+                return list.includes(userFavWords[0])
+            }
+
+            /*newLinksにあってoldLinksに無いものだけを集めた配列を作る*/
+            const favShops = osusumeList.reduce((prev, curr) => {
+                if (curr.keywords.includes("ラーメン")) {
+                    prev.push(curr)
+                }
+                // if (userFavWords.some(word => {curr.keywords.includes(word)})) {
+                //     prev.push(curr)
+                // }
+                return prev
+            }, []);
+
+            /*生成したものを返す*/
+            return favShops;
+        };
+
+        /*ポーリングする関数*/
+        const pollingLinks = async () => {
+            /*192.168.0.200/linksから紐付いたlinksを取得する*/
+            /*Paramsにidを追加しない場合全てのリーダーのイベントを取得できる*/
+            const endPointUrl = `http://192.168.0.200/links?id=${observeReaderId}&limit=100`;
+            try {
+                const request = await fetch(endPointUrl);
+                /*新しい配列*/
+                const loadedLinks = await request.json();
+                /*新しく追加されたLinksを求める*/
+                getDiff(storedLinks, loadedLinks)
+                /*ローカルの配列を新しい配列に上書きする*/
+                storedLinks = loadedLinks;
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        /*ローカルのlinksと毎秒取得する新鮮なlinksとの差分をとる関数*/
+        const getDiff = (oldLinks, newLinks) => {
+            /*newLinksにあってoldLinksに無いものは新しいものとする*/
+            /*あるかないかの確認はmongoDBのレコードIdを元に行う*/
+            const oldIdArray = oldLinks.map(link => link._id.$oid);
+
+            /*レコードIdを元に存在しているかを真偽値で返す関数*/
+            const isContained = (link) => {
+                return oldIdArray.includes(link._id.$oid);
+            }
+
+            /*newLinksにあってoldLinksに無いものだけを集めた配列を作る*/
+            const diffLinks = newLinks.reduce((prev, curr) => {
+                if (!isContained(curr)) {
+                    prev.push(curr)
+                }
+                return prev
+            }, []);
+
+            if (diffLinks.length != 0 && diffLinks.length < 2) {
+                console.log(`新しいタッチイベントが${diffLinks.length}件発生しました!`)
+                /*例えば自分が1番の場合は監視するフィルタも作れる*/
+                diffLinks.forEach(async link => {
+                    /*リーダーIDが自分のIDと一致する場合*/
+                    if (link.link[0] === observeReaderId) {
+                        console.log(`${link.link[1]}が私にタッチした!`)
+                        console.dir(await fiterList(link.link[1]));
+                        renderGrid(await fiterList(link.link[1]));
+                    }
+                    /*ここでListを絞り込んだ上でLinkを描画する*/
+                })
+            }
+        }
 
         const renderGrid = (list) => {
             const container = document.getElementById("root");
@@ -15,6 +144,7 @@
             if (list) {
                 list.forEach((item, index) => {
                     const newItem = document.createElement("div")
+                    newItem.classList.add("listItem")
 
                     /*タイトル文字を生成*/
                     const title = document.createElement("h3")
@@ -22,7 +152,7 @@
 
                     /*サムネイルを生成*/
                     const image = document.createElement("img")
-                    image.src = `../img/${encodeURI(item.title)}.png`;
+                    image.src = `img/${encodeURI(item.title)}.jpg`;
 
                     /*合体させる*/
                     newItem.append(title)
@@ -37,14 +167,20 @@
 
         window.onload = async () => {
             const dataList = await fetch("osusume.json")
-            const osusumeList = await dataList.json()
+            osusumeList = await dataList.json()
             console.dir(osusumeList);
+            getUserInfo();
+            /*取得したオススメJSONを描画する*/
             renderGrid(osusumeList);
+            /*ポーリングする関数を毎秒呼び出す*/
+            setInterval(() => {
+                pollingLinks();
+            }, 1000);
         }
     </script>
 </head>
 <body>
-    <h1>ConnecTouch Signage</h1>
-    <div id="root" />
+<h1>ConnecTouch Signage</h1>
+<div id="root"/>
 </body>
 </html>
