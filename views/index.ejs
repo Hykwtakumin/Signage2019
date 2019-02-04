@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title>
+        <%- title %>
+    </title>
+    <script>
+
+        const renderGrid = (list) => {
+            const container = document.getElementById("root");
+            /*以前のリストを削除*/
+            while (container.firstChild) {
+                container.removeChild(container.firstChild)
+            }
+            /*リストを生成して貼り付け*/
+            if (list) {
+                list.forEach((item, index) => {
+                    const newItem = document.createElement("div")
+
+                    /*タイトル文字を生成*/
+                    const title = document.createElement("h3")
+                    title.innerText = item.title;
+
+                    /*サムネイルを生成*/
+                    const image = document.createElement("img")
+                    image.src = `../img/${encodeURI(item.title)}.png`;
+
+                    /*合体させる*/
+                    newItem.append(title)
+                    newItem.append(image)
+
+                    /*コンテナに追加*/
+                    container.appendChild(newItem);
+                });
+            }
+
+        }
+
+        window.onload = async () => {
+            const dataList = await fetch("osusume.json")
+            const osusumeList = await dataList.json()
+            console.dir(osusumeList);
+            renderGrid(osusumeList);
+        }
+    </script>
+</head>
+<body>
+    <h1>ConnecTouch Signage</h1>
+    <div id="root" />
+</body>
+</html>

@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as ejs from "ejs";
 const app = express();
 const port = process.env.PORT || 3000;
 
