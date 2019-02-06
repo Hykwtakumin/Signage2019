@@ -58,25 +58,39 @@
             console.dir(userFavWords);
 
             /*userFavWords内の単語があるかどうか調べる*/
+            /*Promiseを返す*/
             const isContained = (list) => {
-                // userFavWords.some(word => {
-                //     if (list.includes(word)) {
-                //         return true
-                //     }
-                // })
-                return list.includes(userFavWords[0])
+                return new Promise((resolve, reject) => {
+                    userFavWords.forEach( async (item) => {
+                        if (list.includes(item)) {
+                            resolve(true);
+                        }
+                    } );
+                    /**/
+                });
             }
 
             /*newLinksにあってoldLinksに無いものだけを集めた配列を作る*/
-            const favShops = osusumeList.reduce((prev, curr) => {
-                if (curr.keywords.includes("ラーメン")) {
-                    prev.push(curr)
+            /*これも重複をなんとかする関数と同じ?*/
+
+            const favShops = [];
+
+            // const favShops = osusumeList.reduce( async (prev, curr) => {
+            //     if (await isContained(curr.keywords)) {
+            //         console.log(`keyword detected! : ${curr.title}`)
+            //         prev.push(curr);
+            //     } else {
+            //         console.log(`keyword is not detected!`);
+            //     }
+            //     return prev
+            // }, []);
+
+            osusumeList.forEach(async item => {
+                if (await isContained(item.keywords)) {
+                    console.log(`keyword detected! : ${item.title}`);
+                    favShops.push(item);
                 }
-                // if (userFavWords.some(word => {curr.keywords.includes(word)})) {
-                //     prev.push(curr)
-                // }
-                return prev
-            }, []);
+            });
 
             /*生成したものを返す*/
             return favShops;
@@ -126,8 +140,14 @@
                     /*リーダーIDが自分のIDと一致する場合*/
                     if (link.link[0] === observeReaderId) {
                         console.log(`${link.link[1]}が私にタッチした!`)
-                        console.dir(await fiterList(link.link[1]));
-                        renderGrid(await fiterList(link.link[1]));
+                        const filteredList = await fiterList(link.link[1]);
+                        console.dir(filteredList);
+                        if (filteredList.length === 0) {
+                            /*推薦するものが無ければすべて表示する*/
+                            renderGrid(osusumeList);
+                        } else {
+                            renderGrid(filteredList);
+                        }
                     }
                     /*ここでListを絞り込んだ上でLinkを描画する*/
                 })
