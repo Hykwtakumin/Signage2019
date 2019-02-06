@@ -13,7 +13,11 @@ app.use(express.static("public"));
 
 //トップページにアクセスされた場合
 app.get("/", async (req, res) => {
-    res.render('index', {
+    // res.render('index', {
+    //     title: "Welcome to Signage!",
+    // });
+    /*react版を動かしてみる*/
+    res.render('indexWithReact', {
         title: "Welcome to Signage!",
     });
 });

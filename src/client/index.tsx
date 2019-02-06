@@ -10,6 +10,6 @@ window.onload = async () => {
     const json = await axios.get("osusume.json").catch(e => console.error(e)) as AxiosResponse;
     console.dir(json.data);
     ReactDOM.render((
-        <MainFrame defaultState={{dataArray: json.data}}/>
+        <MainFrame dataArray={json.data} />
     ),document.getElementById("root"));
 };

@@ -20,7 +20,7 @@
         }
 
         .listItemImg {
-            width: 23%;
+            object-fit: contain;
         }
 
     </style>
@@ -173,6 +173,7 @@
                     /*サムネイルを生成*/
                     const image = document.createElement("img")
                     image.src = `img/${encodeURI(item.title)}.jpg`;
+                    image.classList.add("listItemImg");
 
                     /*合体させる*/
                     newItem.append(title)
