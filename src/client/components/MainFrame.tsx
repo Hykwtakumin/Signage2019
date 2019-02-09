@@ -66,6 +66,29 @@ class MainFrame extends React.Component<{
         Object.assign(storedLinks, loadedLinks);
     };
 
+    notificate = (message: string) => {
+        // ブラウザが通知をサポートしているか確認する
+        if (!("Notification" in window)) {
+            alert("このブラウザはシステム通知をサポートしていません");
+        }
+
+        // すでに通知の許可を得ているか確認する
+        else if (Notification.permission === "granted") {
+            // 許可を得ている場合は、通知を作成する
+            new Notification(message);
+        }
+
+        // 許可を得ていない場合は、ユーザに許可を求めなければならない
+        else if (Notification.permission !== 'denied') {
+            Notification.requestPermission(function (permission) {
+                // ユーザが許可した場合は、通知を作成する
+                if (permission === "granted") {
+                    new Notification(message);
+                }
+            });
+        }
+    };
+
     getDiff = (oldLinks: Array<ConnecTouchLink>, newLinks: Array<ConnecTouchLink>) => {
         /*newLinksにあってoldLinksに無いものは新しいものとする*/
         /*あるかないかの確認はmongoDBのレコードIdを元に行う*/
@@ -98,17 +121,18 @@ class MainFrame extends React.Component<{
                     } else {
                         this.setState({dataArray:filteredList});
                         console.dir(this.state);
-                        sendMail("user4@192.168.0.200", "テストです", `${filteredList.toString()}`)
-                            .then(response => {
-                                if (response) {
-                                    console.log("メールの送信に成功しました!");
-                                } else {
-                                    console.log("メールの送信に失敗しました...");
-                                }
-                            })
-                            .catch(error => {
-                                console.error(error);
-                            });
+                        this.notificate("新しいタッチイベントを検出しました!");
+                        // sendMail("user4@192.168.0.200", "テストです", `${filteredList.toString()}`)
+                        //     .then(response => {
+                        //         if (response) {
+                        //             console.log("メールの送信に成功しました!");
+                        //         } else {
+                        //             console.log("メールの送信に失敗しました...");
+                        //         }
+                        //     })
+                        //     .catch(error => {
+                        //         console.error(error);
+                        //     });
                     }
                 }
             })
@@ -139,7 +163,19 @@ class MainFrame extends React.Component<{
         });
     };
 
+    registerServiceWorker = () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registered => {
+                console.log('SW registered!', registered);
+            })
+            .catch(error => {
+                console.error(error );
+            });
+    };
+
     componentDidMount() {
+        /*workerを登録*/
+        //this.registerServiceWorker();
         /*オリジナルのOsusumeJsonを確保*/
         this.storeOsusumeList();
         /*参加者のプロフィールを取得する*/
