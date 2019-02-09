@@ -67,26 +67,33 @@ class MainFrame extends React.Component<{
     };
 
     notificate = (message: string) => {
-        // ブラウザが通知をサポートしているか確認する
-        if (!("Notification" in window)) {
-            alert("このブラウザはシステム通知をサポートしていません");
-        }
-
-        // すでに通知の許可を得ているか確認する
-        else if (Notification.permission === "granted") {
-            // 許可を得ている場合は、通知を作成する
-            new Notification(message);
-        }
-
-        // 許可を得ていない場合は、ユーザに許可を求めなければならない
-        else if (Notification.permission !== 'denied') {
-            Notification.requestPermission(function (permission) {
-                // ユーザが許可した場合は、通知を作成する
-                if (permission === "granted") {
-                    new Notification(message);
-                }
-            });
-        }
+        // // ブラウザが通知をサポートしているか確認する
+        // if (!("Notification" in window)) {
+        //     alert("このブラウザはシステム通知をサポートしていません");
+        // }
+        //
+        // // すでに通知の許可を得ているか確認する
+        // else if (Notification.permission === "granted") {
+        //     // 許可を得ている場合は、通知を作成する
+        //     new Notification(message);
+        // }
+        //
+        // // 許可を得ていない場合は、ユーザに許可を求めなければならない
+        // else if (Notification.permission !== 'denied') {
+        //     Notification.requestPermission(function (permission) {
+        //         // ユーザが許可した場合は、通知を作成する
+        //         if (permission === "granted") {
+        //             new Notification(message);
+        //         }
+        //     });
+        // }
+        Notification.requestPermission(function(result) {
+            if (result === 'granted') {
+                navigator.serviceWorker.ready.then(function(registration) {
+                    registration.showNotification(`Notification with ServiceWorker : ${message}`);
+                });
+            }
+        });
     };
 
     getDiff = (oldLinks: Array<ConnecTouchLink>, newLinks: Array<ConnecTouchLink>) => {
@@ -175,7 +182,7 @@ class MainFrame extends React.Component<{
 
     componentDidMount() {
         /*workerを登録*/
-        //this.registerServiceWorker();
+        this.registerServiceWorker();
         /*オリジナルのOsusumeJsonを確保*/
         this.storeOsusumeList();
         /*参加者のプロフィールを取得する*/
