@@ -13,15 +13,25 @@ app.use(express.static("public"));
 
 //トップページにアクセスされた場合
 app.get("/", async (req, res) => {
-    // res.render('index', {
-    //     title: "Welcome to Signage!",
-    // });
-    /*react版を動かしてみる*/
-    res.render('indexWithReact', {
-        title: "Welcome to Signage!",
+    /*基本はmobileにリダイレクトさせる*/
+    res.redirect("/mobile");
+});
+
+app.get("/mobile", async (req, res) => {
+    /*モバイルページを返す*/
+    res.render('mobile', {
+        title: "ConnecTouch Mobile",
     });
 });
 
+app.get("/signage", async (req, res) => {
+    /*サイネージページを返す*/
+    res.render('signage', {
+        title: "ConnecTouch Signage!",
+    });
+});
+
+
 app.listen(port, () => {
-    console.log("server is ready>:)");
+    console.log(`server started in port ${port}`);
 });

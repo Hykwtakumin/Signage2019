@@ -1,11 +1,11 @@
 import * as React from "react";
 import axios, {AxiosResponse} from "axios";
 import {css} from 'emotion'
-import {CardInfo, ConnecTouchLink, OsusumeJson} from "../../share/types";
+import {CardInfo, ConnecTouchLink, OsusumeJson} from "../../../share/types";
 import {OsusumeGird} from "./OsusumeGrid";
 import {Simulate} from "react-dom/test-utils";
 import load = Simulate.load;
-import {isKeyWordContained, sendMail} from "../../share/util";
+import {isKeyWordContained, sendMail} from "../../../share/util";
 
 const container = css({});
 
@@ -87,13 +87,13 @@ class MainFrame extends React.Component<{
         //         }
         //     });
         // }
-        Notification.requestPermission(function(result) {
-            if (result === 'granted') {
-                navigator.serviceWorker.ready.then(function(registration) {
-                    registration.showNotification(`Notification with ServiceWorker : ${message}`);
-                });
-            }
-        });
+        // Notification.requestPermission(function(result) {
+        //     if (result === 'granted') {
+        //         navigator.serviceWorker.ready.then(function(registration) {
+        //             registration.showNotification(`Notification with ServiceWorker : ${message}`);
+        //         });
+        //     }
+        // });
     };
 
     getDiff = (oldLinks: Array<ConnecTouchLink>, newLinks: Array<ConnecTouchLink>) => {

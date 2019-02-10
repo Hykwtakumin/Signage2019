@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ReactDOM, ReactNode, SFC} from "react";
-import {OsusumeJson} from "../../share/types";
+import {OsusumeJson} from "../../../share/types";
 import {css} from "emotion";
 
 const gridContainer = css({
