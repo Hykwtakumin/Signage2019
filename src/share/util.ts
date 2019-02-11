@@ -1,6 +1,4 @@
 import axios, {AxiosResponse} from "axios";
-axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
 
 /*メールを送る関数*/
 const sendMail = async (to: string, subject: string, body: string) : Promise<boolean> => {
