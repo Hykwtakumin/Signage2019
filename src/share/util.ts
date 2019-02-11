@@ -43,6 +43,7 @@ export const client = axios.create({
     headers: {
         // Accept: "application/text/plain",
         // "Content-Type": "application/text/plain",
+        "Content-Type": "application/x-www-form-urlencoded",
         "Access-Control-Allow-Origin": "*",
         // "Access-Control-Allow-Headers":"Content-Type",
         // "Access-Control-Allow-Methods": "GET,HEAD,PUT,PATCH,POST,DELETE"

@@ -1,14 +1,17 @@
 import * as React from "react";
-import { FC } from "react";
+import {FC} from "react";
 import {css} from "emotion";
-import { notification } from "antd";
-import { LinksListContent } from "./LinksListContent";
+import {notification} from "antd";
+import {LinksListContent} from "./LinksListContent";
 import "dotenv/config";
-import {ConnecTouchLink} from "../../../share/types";
+import {CardInfo, ConnecTouchLink} from "../../../share/types";
+import {isKeyWordContained} from "../../../share/util";
 
-const { useState, useEffect, useContext } = React;
-const fetchURL = process.env.FETCH_URL || "http://connectouch.org";
-
+const {useState, useEffect, useContext} = React;
+const fetchURL = process.env.FETCH_URL || "http://192.168.0.200";
+const myCardID = "010104128215612b";
+const filteredLinks: ConnecTouchLink[] = [];
+//const userInfoTable: CardInfo[] = [];
 
 const container = css({
     fontFamily: "sans-serif",
@@ -24,8 +27,17 @@ export const LinksListWrapper: FC<{}> = () => {
     const [filter, setFilter] = useState("");
     const [links, setLinks] = useState([] as ConnecTouchLink[]);
     const [fetchLimitNum, setLimit] = useState(10);
+    const [userInfoTable, setUserInfoTable] = useState([] as CardInfo[]);
 
     useEffect(() => {
+        fetch(`${fetchURL}/info`)
+            .then(async (response) => {
+                const data = await response.json();
+                setUserInfoTable(data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
         const timerId = setInterval(polingLinks, 1000);
         return () => clearInterval(timerId);
     }, [fetchLimitNum, links]);
@@ -51,6 +63,22 @@ export const LinksListWrapper: FC<{}> = () => {
         setLimit(fetchLimitNum + 10);
     };
 
+
+    const filterLink = async (newLink: ConnecTouchLink) => {
+        /*自分のIDと一致する*/
+        if (newLink.link.cardId === myCardID) {
+            filteredLinks.push(newLink);
+        } else {
+            /*自分のsecretと一致する*/
+            const myInfo = userInfoTable.find(user => { return user.id === myCardID });
+            const newInfo = userInfoTable.find(user => { return user.id === newLink.link.cardId });
+
+            if (await isKeyWordContained(myInfo.secrets, newInfo.secrets)) {
+                filteredLinks.push(newLink);
+            }
+        }
+    };
+
     const getLinksDiff = (oldLinks: ConnecTouchLink[], newLinks: ConnecTouchLink[]) => {
         const oldIdArray = oldLinks.map(item => item._id.$oid);
 
@@ -63,7 +91,7 @@ export const LinksListWrapper: FC<{}> = () => {
             return prev;
         }, []);
 
-        if (diffLinks.length < 5) {
+        if (diffLinks.length === 1) {
             diffLinks.forEach(link => {
                 const parsedLink = link;
                 const readerId = parsedLink.link[0] as string;
@@ -73,6 +101,7 @@ export const LinksListWrapper: FC<{}> = () => {
                     description: `リーダー：${readerId}\nカード：${cardId}`,
                 });
             });
+            const newLink = diffLinks[0];
         }
     };
 
