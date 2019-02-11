@@ -1,5 +1,5 @@
 import * as React from "react";
-import {ReactDOM, ReactNode, SFC} from "react";
+import {ReactDOM, ReactNode, SFC, FC} from "react";
 import {OsusumeJson} from "../../../share/types";
 import {css} from "emotion";
 
@@ -17,9 +17,13 @@ const gridImage = css({
     objectFit : "contain"
 });
 
-export const OsusumeGird:SFC<{dataLists : Array<OsusumeJson>}> = props => {
+interface props {
+    dataLists : Array<OsusumeJson>
+}
 
-    const dataLists = props.dataLists.forEach((item) => {
+export const OsusumeGird:FC<props> = ({dataLists}) => {
+
+    dataLists.forEach((item) => {
             <div className={gridItem}>
                 <h3>{item.title}</h3>
                 <img className={gridImage} src={`img/${encodeURI(item.title)}.jpg`}/>

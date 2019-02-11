@@ -17,6 +17,8 @@ const container = css({
     marginBottom: "5%",
 });
 
+/*リストビューの本体*/
+/*ClassComponentではない*/
 export const LinksListWrapper: FC<{}> = () => {
     const [isActivated, setActivate] = useState(false);
     const [filter, setFilter] = useState("");
