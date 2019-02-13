@@ -1,7 +1,8 @@
 import axios, {AxiosResponse} from "axios";
+import {CardInfo} from "./types";
 
 /*メールを送る関数*/
-const sendMail = async (to: string, subject: string, body: string) : Promise<boolean> => {
+export const sendMail = async (to: string, subject: string, body: string) : Promise<boolean> => {
     return new Promise((resolve, reject) => {
         axios.post("http://192.168.0.200/mail",
             {
@@ -20,17 +21,6 @@ const sendMail = async (to: string, subject: string, body: string) : Promise<boo
                 console.error(error);
                 reject(error);
             })
-    });
-};
-
-/*利用者のkeywordsと店のkeywordsとの間で共通するものを返す関数*/
-const isKeyWordContained = async (userWords: Array<string>, shopWords: Array<string>): Promise<boolean> => {
-    return new Promise((resolve, reject) => {
-        userWords.forEach(word => {
-            if (shopWords && shopWords.includes(word)) {
-                resolve(true);
-            }
-        });
     });
 };
 
@@ -102,6 +92,43 @@ export function delete_req(url: string, Params: any): Promise<AxiosResponse> {
     });
 }
 
+/*２つの文字列配列の中に共通するものがあるかbooleanで返す関数*/
+export const isKeyWordContained = async (formerWords: Array<string>, latterWords: Array<string>): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+        formerWords.forEach(word => {
+            if (latterWords && latterWords.includes(word)) {
+                resolve(true);
+            }
+        });
+    });
+};
 
+/*カード番号からcardIDを解決する関数*/
+export const resolveCardIdByNumber = async (cardNumber: number): Promise<string> => {
+    return new Promise( async (resolve, reject) => {
+        /*userCardTable.jsonを取得する*/
+        const request = await get("http://192.168.0.200:3000/userCardTable.json", {});
+        const cardTable = await request.data;
+        console.dir(cardTable);
+        const cardId = cardTable.find(card => {
+            return card.number == cardNumber
+        });
+        resolve(cardId.id);
+    });
+};
 
-export { sendMail, isKeyWordContained }
+/*参加者のプロフィールを取ってくる関数*/
+export const getUserInfo = async (cardId : string):Promise<CardInfo> => {
+    const endPointUrl = `http://192.168.0.200/info`;
+
+    return new Promise( async (resolve, reject) => {
+        //const response = await get(endPointUrl, {});
+        const response = await fetch(endPointUrl);
+        const infoLinks = await response.json() as Array<CardInfo>;
+
+        const info =  infoLinks.find(item => {
+            return item.id === cardId
+        });
+        resolve(info);
+    });
+};
