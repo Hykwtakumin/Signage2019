@@ -104,13 +104,14 @@ export const LinksListWrapper: FC<{}> = () => {
         const parsedLink = link;
         const readerId = parsedLink.link[0] as string;
         const cardId = parsedLink.link[1] as string;
+        const user = userInfoTable.find(item => item.id === cardId).email;
         notification.info({
           message: "Suicaがタッチされました。",
           description: (
             <div>
-              <span>リーダー：{readerId}</span>
+              <span>場所：{readerId}</span>
               <br />
-              <span>カード：{cardId}</span>
+              <span>人物：{user}</span>
             </div>
           ),
         });
