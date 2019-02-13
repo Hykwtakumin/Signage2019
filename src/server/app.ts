@@ -35,11 +35,14 @@ const omiya = encodeURI("大宮");
 const shinjuku = encodeURI("新宿");
 const akihabara = encodeURI("秋葉原");
 const yokohama = encodeURI("横浜");
-const fujisawa = encodeURI("藤沢")
+const fujisawa = encodeURI("藤沢");
 
 app.get(`/${omiya}|${shinjuku}|${akihabara}|${yokohama}|${fujisawa}`, async (req, res) => {
     /*サイネージページを返す*/
-    res.render('signage', {
+    // res.render('signage', {
+    //     title: "ConnecTouch Signage!",
+    // });
+    res.render('index', {
         title: "ConnecTouch Signage!",
     });
 });
