@@ -106,7 +106,13 @@ export const LinksListWrapper: FC<{}> = () => {
         const cardId = parsedLink.link[1] as string;
         notification.info({
           message: "Suicaがタッチされました。",
-          description: `リーダー：${readerId}\nカード：${cardId}`,
+          description: (
+            <div>
+              <span>リーダー：{readerId}</span>
+              <br />
+              <span>カード：{cardId}</span>
+            </div>
+          ),
         });
       });
       const newLink = diffLinks[0];
