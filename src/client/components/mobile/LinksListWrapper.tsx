@@ -5,9 +5,13 @@ import { notification } from "antd";
 import { LinksListContent } from "./LinksListContent";
 import { CardInfo, ConnecTouchLink } from "../../../share/types";
 import { isKeyWordContained } from "../../../share/util";
+
+import { readerTable } from "./readerTable";
+import { userInfoTable } from "./userInfoTable";
+import { cardIdList, readerIdList } from "./idList";
 // import "dotenv/config";
 
-const { useState, useEffect, useContext } = React;
+const { useState, useEffect, useLayoutEffect } = React;
 const fetchURL = process.env.FETCH_URL || "http://192.168.0.200";
 const myCardID = "010104128215612b";
 const filteredLinks: ConnecTouchLink[] = [];
@@ -26,7 +30,7 @@ export const LinksListWrapper: FC<{}> = () => {
   const [isActivated, setActivate] = useState(false);
   const [filter, setFilter] = useState("");
   const [links, setLinks] = useState([] as ConnecTouchLink[]);
-  const [userInfoTable, setUserInfoTable] = useState([] as CardInfo[]);
+  // const [userInfoTable, setUserInfoTable] = useState([] as CardInfo[]);
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -35,15 +39,20 @@ export const LinksListWrapper: FC<{}> = () => {
     () => clearTimeout(loadingId);
   }, []);
 
+  // useLayoutEffect(() => {
+  //   console.log("layout effect");
+  //   fetch(`${fetchURL}/info`)
+  //     .then(async response => {
+  //       const data = await response.json();
+  //       await setUserInfoTable(data);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  //   return () => console.log("end layout");
+  // }, []);
+
   useEffect(() => {
-    fetch(`${fetchURL}/info`)
-      .then(async response => {
-        const data = await response.json();
-        setUserInfoTable(data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
     const timerId = setInterval(polingLinks, 1000);
     return () => clearInterval(timerId);
   }, [links]);
@@ -104,14 +113,20 @@ export const LinksListWrapper: FC<{}> = () => {
         const parsedLink = link;
         const readerId = parsedLink.link[0] as string;
         const cardId = parsedLink.link[1] as string;
-        const user = userInfoTable.find(item => item.id === cardId).email;
+        const userInfo = userInfoTable.find(i => i.id === cardId) || null;
+        const readerInfo = readerTable.find(i => i.id === readerId) || null;
+        const user = userInfo ? userInfo.email : "Guest";
+        const place = readerInfo ? readerInfo.desc : "Test Area";
         notification.info({
-          message: "Suicaがタッチされました。",
-          description: (
+          message: (
             <div>
-              <span>場所：{readerId}</span>
+              <span>
+                <b>{user}</b> が
+              </span>
               <br />
-              <span>人物：{user}</span>
+              <span>
+                <b>{place}</b> にタッチ！
+              </span>
             </div>
           ),
         });
@@ -122,7 +137,11 @@ export const LinksListWrapper: FC<{}> = () => {
 
   return (
     <div className={container}>
-      <LinksListContent links={links} isLoading={isLoading} />
+      <LinksListContent
+        links={links}
+        isLoading={isLoading}
+        // userInfoTable={userInfoTable}
+      />
     </div>
   );
 };
