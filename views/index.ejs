@@ -98,9 +98,8 @@
         /*ポーリングする関数*/
         const pollingLinks = async () => {
             /*192.168.0.200/linksから紐付いたlinksを取得する*/
-            /*Paramsにidを追加しない場合全てのリーダーのイベントを取得できる*/
-            //const endPointUrl = `http://192.168.0.200/links?id=${observeReaderId}&limit=100`;
-            const endPointUrl = `http://connectouch.org/links?id=${observeReaderId}&limit=100`;
+            const endPointUrl = `http://192.168.0.200/links?id=${observeReaderId}&limit=100`;
+            //const endPointUrl = `http://connectouch.org/links?id=${observeReaderId}&limit=100`;
             try {
                 const request = await fetch(endPointUrl);
                 /*新しい配列*/
@@ -150,7 +149,7 @@
                             /*一分後に戻す*/
                             setTimeout(()=> {
                                 renderGrid(localOsusumeList)
-                            },1000 * 60);
+                            },1000 * 15);
                         }
                     }
                     /*ここでListを絞り込んだ上でLinkを描画する*/
