@@ -10,13 +10,20 @@ window.onload = async () => {
 
     if (location.pathname.includes("mobile")) {
         /*モバイルページ用コンポーネントを読み込む*/
-        ReactDOM.render( <MobileApp/>, document.getElementById("root"))
-    } else if (location.pathname.includes("signage")) {
+        ReactDOM.render(<MobileApp/>, document.getElementById("root"))
+    } else {
         /*サイネージ用コンポーネントを読み込む*/
         const json = await axios.get("osusume.json").catch(e => console.error(e)) as AxiosResponse;
         console.dir(json.data);
+        const place = location.pathname.replace("/", "");
+        let osusumeArray = [];
+        for (let item of json.data) {
+            if (item.place === place) {
+                osusumeArray.push(item)
+            }
+        }
         ReactDOM.render((
-            <MainFrame dataArray={json.data} />
-        ),document.getElementById("root"));
+          <MainFrame dataArray={osusumeArray}/>
+        ), document.getElementById("root"));
     }
 };

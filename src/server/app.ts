@@ -8,8 +8,6 @@ const port = process.env.PORT || 3000;
 app.set("view engine", "ejs");
 //bodyParserを使用
 app.use(bodyParser.urlencoded({extended: true}));
-//staticファイルをpublicから配信
-app.use(express.static("public"));
 
 //トップページにアクセスされた場合
 app.get("/", async (req, res) => {
@@ -24,13 +22,21 @@ app.get("/mobile", async (req, res) => {
     });
 });
 
-app.get("/signage", async (req, res) => {
+// app.get("/signage/omiya", async (req, res) => {
+//     /*サイネージページを返す*/
+//     res.render('signage', {
+//         title: "ConnecTouch Signage!",
+//     });
+// });
+app.get("/omiya|akihabara|shinjuku|yokohama|fujisawa", async (req, res) => {
     /*サイネージページを返す*/
     res.render('signage', {
         title: "ConnecTouch Signage!",
     });
 });
 
+//staticファイルをpublicから配信
+app.use(express.static("public"));
 
 app.listen(port, () => {
     console.log(`server started in port ${port}`);
