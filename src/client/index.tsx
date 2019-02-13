@@ -16,14 +16,29 @@ window.onload = async () => {
         const json = await axios.get("osusume.json").catch(e => console.error(e)) as AxiosResponse;
         console.dir(json.data);
         const place = decodeURI(location.pathname.replace("/", ""));
+        console.log(`place:${place}`);
         let osusumeArray = [];
+        let readerId : string;
         for (let item of json.data) {
             if (item.place === place) {
                 osusumeArray.push(item)
             }
         }
+        if (place === "大宮") {
+            readerId = "192.168.0.210";
+        } else if (place === "新宿") {
+            readerId = "192.168.0.202";
+        } else if (place === "秋葉原") {
+            readerId = "192.168.0.217";
+        } else if (place === "横浜") {
+            readerId = "192.168.0.212";
+        } else if (place === "藤沢") {
+            /*本当はSFCのID*/
+            readerId = "192.168.0.219";
+        }
+
         ReactDOM.render((
-          <MainFrame dataArray={osusumeArray}/>
+          <MainFrame dataArray={osusumeArray} readerId={readerId} />
         ), document.getElementById("root"));
     }
 };

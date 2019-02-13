@@ -23,16 +23,17 @@ const sendMail = async (to: string, subject: string, body: string) : Promise<boo
     });
 };
 
-/*利用者のkeywordsと店のkeywordsとの間で共通するものを返す関数*/
-const isKeyWordContained = async (userWords: Array<string>, shopWords: Array<string>): Promise<boolean> => {
+/*２つの文字列配列の中に共通するものがあるかbooleanで返す関数*/
+export const isKeyWordContained = async (formerWords: Array<string>, latterWords: Array<string>): Promise<boolean> => {
     return new Promise((resolve, reject) => {
-        userWords.forEach(word => {
-            if (shopWords && shopWords.includes(word)) {
+        formerWords.forEach(word => {
+            if (latterWords && latterWords.includes(word)) {
                 resolve(true);
             }
         });
     });
 };
+
 
 export const client = axios.create({
     //baseURL: "http://192.168.0.200/",
@@ -104,4 +105,4 @@ export function delete_req(url: string, Params: any): Promise<AxiosResponse> {
 
 
 
-export { sendMail, isKeyWordContained }
+export { sendMail }
