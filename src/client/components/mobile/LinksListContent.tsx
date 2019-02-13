@@ -73,6 +73,8 @@ export const LinksListContent: FC<Props> = ({ links, isLoading }) => {
                 item.url ? (
                   <div>
                     <img src={item.url} style={{ width: "60vw" }} />
+                    <br />
+                    <span style={{ float: "right" }}>{time}</span>
                   </div>
                 ) : (
                   <div>
