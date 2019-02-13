@@ -11,10 +11,15 @@ const gridContainer = css({
     alignContent: "space-between"
 });
 const gridItem = css({
-    textAlign: "center"
+    textAlign: "center",
+    width: "30%",
+    height: "40%"
 });
+
 const gridImage = css({
-    objectFit: "contain"
+    objectFit: "cover",
+    width: "100%",
+    height: "80%",
 });
 
 interface props {
