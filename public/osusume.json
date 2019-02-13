@@ -100,10 +100,27 @@
   },
   {
     "place": "大宮",
+    "title": "東鮨　新店",
+    "url": "https://tabelog.com/saitama/A1101/A110101/11006332/",
+    "keywords": [
+      "寿司"
+    ]
+  },
+  {
+    "place": "大宮",
     "title": "藤店うどん",
     "url": "https://retty.me/area/PRE11/ARE53/SUB5301/100000455029/",
     "keywords": [
       "うどん"
+    ]
+  },
+  {
+    "place": "大宮",
+    "title": "小春日和",
+    "url": "https://tabelog.com/saitama/A1101/A110101/11004747/",
+    "keywords": [
+      "パン",
+      "カフェ"
     ]
   },
   {
@@ -198,6 +215,22 @@
   },
   {
     "place": "新宿",
+    "title": "うどん 慎",
+    "url": "https://tabelog.com/tokyo/A1304/A130401/13125862/",
+    "keywords": [
+      "うどん"
+    ]
+  },
+  {
+    "place": "新宿",
+    "title": "NO MEAT, NO LIFE.1st",
+    "url": "https://tabelog.com/tokyo/A1304/A130401/13162573/",
+    "keywords": [
+      "焼肉"
+    ]
+  },
+  {
+    "place": "新宿",
     "title": "風雲児",
     "url": "https://retty.me/area/PRE13/ARE1/SUB113/100000003449/",
     "keywords": [
@@ -230,6 +263,15 @@
   },
   {
     "place": "新宿",
+    "title": "ベーカリー&レストラン 沢村 新宿",
+    "url": "https://tabelog.com/tokyo/A1304/A130403/13193553/",
+    "keywords": [
+      "パン",
+      "カフェ"
+    ]
+  },
+  {
+    "place": "新宿",
     "title": "三是寿司",
     "url": "https://gyazo.com/9af623bc87c497340b05e1343268663b",
     "keywords": [
@@ -254,11 +296,37 @@
   },
   {
     "place": "横浜",
+    "title": "パニーノジュスト そごう横浜店",
+    "url": "https://tabelog.com/kanagawa/A1401/A140101/14000641/",
+    "keywords": [
+      "カフェ",
+      "パン"
+    ]
+  },
+  {
+    "place": "横浜",
+    "title": "鮨 七海",
+    "url": "https://tabelog.com/kanagawa/A1401/A140101/14072347/",
+    "keywords": [
+      "寿司"
+    ]
+  },
+  {
+    "place": "横浜",
+    "title": "星のうどん",
+    "url": "https://tabelog.com/kanagawa/A1401/A140101/14000405/",
+    "keywords": [
+      "うどん"
+    ]
+  },
+  {
+    "place": "横浜",
     "title": "時穏",
     "url": "https://tabelog.com/kanagawa/A1401/A140104/14029595/",
     "keywords": [
       "居酒屋",
-      "日本酒"
+      "日本酒",
+      "定食"
     ]
   },
   {
@@ -323,6 +391,24 @@
   },
   {
     "place": "秋葉原",
+    "title": "Cafe MOCO",
+    "url": "https://tabelog.com/tokyo/A1310/A131001/13045716/",
+    "keywords": [
+      "パン",
+      "カフェ"
+    ]
+  },
+  {
+    "place": "秋葉原",
+    "title": "二葉",
+    "url": "https://tabelog.com/tokyo/A1310/A131001/13010414/",
+    "keywords": [
+      "うどん",
+      "そば"
+    ]
+  },
+  {
+    "place": "秋葉原",
     "title": "カレーは飲み物。 秋葉原店",
     "url": "https://retty.me/area/PRE13/ARE11/SUB1102/100000851009/",
     "keywords": [
@@ -373,11 +459,81 @@
   },
   {
     "place": "藤沢",
-    "title": "あとで書く",
-    "url": "hoge.fuga.com",
+    "title": "らぁめん 鴇",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100001216001/",
     "keywords": [
-      "a",
-      "b"
+      "ラーメン"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "ラーメン二郎 湘南藤沢店",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100000009843/",
+    "keywords": [
+      "ラーメン"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "モキチクラフトビア",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100000667091/",
+    "keywords": [
+      "ビール",
+      "バー"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "ふじやす食堂",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100000852899/",
+    "keywords": [
+      "定食",
+      "寿司",
+      "海鮮"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "セラフィーノ",
+    "url": "https://tabelog.com/kanagawa/A1404/A140404/14039203/",
+    "keywords": [
+      "イタリアン"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "コーヒーアンドバナナ",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100001289940/",
+    "keywords": [
+      "カフェ",
+      "スイーツ焼肉"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "獺祭",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100000701558/",
+    "keywords": [
+      "居酒屋",
+      "日本酒"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "富貴堂",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100000629481/",
+    "keywords": [
+      "うどん"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "エディーズブレッドミニ 藤沢店",
+    "url": "https://tabelog.com/kanagawa/A1404/A140404/14024325/",
+    "keywords": [
+      "青ブタ",
+      "聖地",
+      "パン"
     ]
   }
 ]
