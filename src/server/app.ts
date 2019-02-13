@@ -9,6 +9,9 @@ app.set("view engine", "ejs");
 //bodyParserを使用
 app.use(bodyParser.urlencoded({extended: true}));
 
+//staticファイルをpublicから配信
+app.use(express.static("public"));
+
 //トップページにアクセスされた場合
 app.get("/", async (req, res) => {
     /*基本はmobileにリダイレクトさせる*/
@@ -28,15 +31,18 @@ app.get("/mobile", async (req, res) => {
 //         title: "ConnecTouch Signage!",
 //     });
 // });
-app.get("/omiya|akihabara|shinjuku|yokohama|fujisawa", async (req, res) => {
+const omiya = encodeURI("大宮");
+const shinjuku = encodeURI("新宿");
+const akihabara = encodeURI("秋葉原");
+const yokohama = encodeURI("横浜");
+const fujisawa = encodeURI("藤沢")
+
+app.get(`/${omiya}|${shinjuku}|${akihabara}|${yokohama}|${fujisawa}`, async (req, res) => {
     /*サイネージページを返す*/
     res.render('signage', {
         title: "ConnecTouch Signage!",
     });
 });
-
-//staticファイルをpublicから配信
-app.use(express.static("public"));
 
 app.listen(port, () => {
     console.log(`server started in port ${port}`);

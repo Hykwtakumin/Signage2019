@@ -15,7 +15,7 @@ window.onload = async () => {
         /*サイネージ用コンポーネントを読み込む*/
         const json = await axios.get("osusume.json").catch(e => console.error(e)) as AxiosResponse;
         console.dir(json.data);
-        const place = location.pathname.replace("/", "");
+        const place = decodeURI(location.pathname.replace("/", ""));
         let osusumeArray = [];
         for (let item of json.data) {
             if (item.place === place) {

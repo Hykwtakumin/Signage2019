@@ -32,7 +32,7 @@ export const OsusumeGird: FC<props> = ({dataLists}) => {
         return (
           <div className={gridItem}>
               <h3>{item.title}</h3>
-              <img className={gridImage} src={`img/${encodeURI(item.title)}.jpg`}/>
+              <img className={gridImage} src={`img/${item.title}.jpg`}/>
           </div>
         )
     });
