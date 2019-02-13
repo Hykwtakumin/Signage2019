@@ -39,7 +39,10 @@ const fujisawa = encodeURI("藤沢");
 
 app.get(`/${omiya}|${shinjuku}|${akihabara}|${yokohama}|${fujisawa}`, async (req, res) => {
     /*サイネージページを返す*/
-    res.render('signage', {
+    // res.render('signage', {
+    //     title: "ConnecTouch Signage!",
+    // });
+    res.render('index', {
         title: "ConnecTouch Signage!",
     });
 });

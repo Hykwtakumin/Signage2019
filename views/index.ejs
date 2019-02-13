@@ -17,12 +17,15 @@
 
         .listItem {
             background-color: azure;
-            width: 23%;
-            height: 30%
+            text-align: center;
+            width: 30%;
+            height: 40%
         }
 
         .listItemImg {
-            object-fit: contain;
+            object-fit: cover;
+            width: 100%;
+            height: 80%;
         }
 
     </style>
@@ -40,7 +43,8 @@
 
         /*参加者のプロフィールを取ってくる関数*/
         const getUserInfo = async () => {
-            const endPointUrl = `http://192.168.0.200/info`;
+            //const endPointUrl = `http://192.168.0.200/info`;
+            const endPointUrl = `/linksinfo.json`;
 
             const request = await fetch(endPointUrl).catch(e => console.error(e));
             const infoLinks = await request.json();
@@ -102,7 +106,8 @@
         const pollingLinks = async () => {
             /*192.168.0.200/linksから紐付いたlinksを取得する*/
             /*Paramsにidを追加しない場合全てのリーダーのイベントを取得できる*/
-            const endPointUrl = `http://192.168.0.200/links?id=${observeReaderId}&limit=100`;
+            //const endPointUrl = `http://192.168.0.200/links?id=${observeReaderId}&limit=100`;
+            const endPointUrl = `http://connectouch.org/links?id=${observeReaderId}&limit=100`;
             try {
                 const request = await fetch(endPointUrl);
                 /*新しい配列*/
