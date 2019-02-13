@@ -70,10 +70,16 @@ export const LinksListContent: FC<Props> = ({ links, isLoading }) => {
               avatar={<Avatar src={demo_icon} />}
               title={<div>{cardId}</div>}
               description={
-                <div>
-                  {readerId} にタッチしました。
-                  <span style={{ float: "right" }}>{time}</span>
-                </div>
+                item.url ? (
+                  <div>
+                    <img src={item.url} style={{ width: "60vw" }} />
+                  </div>
+                ) : (
+                  <div>
+                    {readerId} にタッチしました。
+                    <span style={{ float: "right" }}>{time}</span>
+                  </div>
+                )
               }
             />
           </List.Item>
