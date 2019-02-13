@@ -15,7 +15,7 @@ const endpoint = "http://192.168.0.200";
 /*8番ラズパイのLinksを監視する*/
 const observeReaderId = "192.168.0.208";
 /*JSONを保存して格納する*/
-const osusumeList: Array<OsusumeJson> = [];
+// const osusumeList: Array<OsusumeJson> = [];
 
 /*取得したlinksをローカルの配列として保持する*/
 const storedLinks: Array<ConnecTouchLink> = [];
@@ -25,21 +25,22 @@ const userInfoTable: Array<CardInfo> = [];
 
 class MainFrame extends React.Component<{
     dataArray: Array<OsusumeJson>
-}> {
+},
+  { osusumeList: Array<OsusumeJson> }> {
 
     constructor(props) {
         super(props);
         const {dataArray} = props;
         this.state = {
-            dataArray: dataArray
+            osusumeList: dataArray
         }
     }
 
     /*おすすめリストを保持しておく関数*/
     /*最初に実行する*/
-    storeOsusumeList = async () => {
-        Object.assign(osusumeList , this.props.dataArray);
-    };
+    // storeOsusumeList = async () => {
+    //     Object.assign(osusumeList , this.props.dataArray);
+    // };
 
     /*参加者のプロフィールを取ってくる関数*/
     getUserInfo = async () => {
@@ -126,7 +127,7 @@ class MainFrame extends React.Component<{
                     if (filteredList.length === 0) {
                         /*推薦するものが無ければ特に何もしない*/
                     } else {
-                        this.setState({dataArray:filteredList});
+                        this.setState({osusumeList: filteredList});
                         console.dir(this.state);
                         this.notificate("新しいタッチイベントを検出しました!");
                         // sendMail("user4@192.168.0.200", "テストです", `${filteredList.toString()}`)
@@ -147,7 +148,7 @@ class MainFrame extends React.Component<{
 
     };
 
-    filterList = async (id: string): Promise<Array<OsusumeJson>> => {
+    filterList = async (id: string): Promise<OsusumeJson[]> => {
         const user = userInfoTable.find(item => {
             return item.id === id
         });
@@ -155,36 +156,53 @@ class MainFrame extends React.Component<{
         const userFavWords = user.keywords;
         console.dir(userFavWords);
 
-        const filteredShopList: Array<OsusumeJson> = [];
-
-        osusumeList.forEach(async (item: OsusumeJson) => {
-            if (await isKeyWordContained(userFavWords, item.keywords)) {
-                console.log(`keyword detected! : ${item.title}`);
-                filteredShopList.push(item);
-            }
-        });
+        // const filteredShopList: Array<OsusumeJson> = osusumeList.map(async (item: OsusumeJson) => {
+        //     const filtered = Promise.all(osusumeList.map(item => {
+        //         return new Promise(async (resolved, rejected)=>{
+        //             if (await isKeyWordContained(userFavWords, item.keywords)) {
+        //                 resolved(item);
+        //                 // return item
+        //             }
+        //         })
+        //     }));
+        // if (await isKeyWordContained(userFavWords, item.keywords)) {
+        //     return item
+        // }
+        // });
 
         /*生成したものを返す*/
-        return new Promise((resolve, reject) => {
-            resolve(filteredShopList);
-        });
+        // return new Promise((resolve, reject) => {
+        //     resolve(filteredShopList);
+        // });
+        return []//osusumeList
+        // if(await isKeyWordContained(userFavWords, osusumeList[0].keywords)){
+        //     return osusumeList[0];
+        // }
+        // return Promise.all(osusumeList.map(item => {
+        //     return new Promise(async (resolved, rejected) =>{
+        //         if (await isKeyWordContained(userFavWords, item.keywords)) {
+        //             resolved(item as OsusumeJson);
+        //             // return item
+        //         }
+        //     })
+        // }));
     };
 
     registerServiceWorker = () => {
         navigator.serviceWorker.register('/sw.js')
-            .then(registered => {
-                console.log('SW registered!', registered);
-            })
-            .catch(error => {
-                console.error(error );
-            });
+          .then(registered => {
+              console.log('SW registered!', registered);
+          })
+          .catch(error => {
+              console.error(error);
+          });
     };
 
     componentDidMount() {
         /*workerを登録*/
         this.registerServiceWorker();
         /*オリジナルのOsusumeJsonを確保*/
-        this.storeOsusumeList();
+        // this.storeOsusumeList();
         /*参加者のプロフィールを取得する*/
         this.getUserInfo();
         setInterval(() => {
@@ -194,9 +212,10 @@ class MainFrame extends React.Component<{
 
     render() {
         return (
-            <div className={container}>
-                <h1>ConnecTouch Signage</h1>
-            </div>
+          <div className={container}>
+              <h1>ConnecTouch Signage</h1>
+              <OsusumeGird dataLists={this.state.osusumeList}/>
+          </div>
         );
     }
 }
