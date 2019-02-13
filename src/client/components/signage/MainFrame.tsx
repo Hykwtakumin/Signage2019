@@ -211,9 +211,10 @@ class MainFrame extends React.Component<{
     }
 
     render() {
+        const place = `${decodeURI(location.pathname).replace("/", "")}駅`;
         return (
           <div className={container}>
-              <h1>ConnecTouch Signage</h1>
+              <h1>{place}のおすすめ情報</h1>
               <OsusumeGird dataLists={this.state.osusumeList}/>
           </div>
         );
