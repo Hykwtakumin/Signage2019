@@ -100,10 +100,27 @@
   },
   {
     "place": "大宮",
+    "title": "東鮨　新店",
+    "url": "https://tabelog.com/saitama/A1101/A110101/11006332/",
+    "keywords": [
+      "寿司"
+    ]
+  },
+  {
+    "place": "大宮",
     "title": "藤店うどん",
     "url": "https://retty.me/area/PRE11/ARE53/SUB5301/100000455029/",
     "keywords": [
       "うどん"
+    ]
+  },
+  {
+    "place": "大宮",
+    "title": "小春日和",
+    "url": "https://tabelog.com/saitama/A1101/A110101/11004747/",
+    "keywords": [
+      "パン",
+      "カフェ"
     ]
   },
   {
@@ -206,6 +223,14 @@
   },
   {
     "place": "新宿",
+    "title": "NO MEAT, NO LIFE.1st",
+    "url": "https://tabelog.com/tokyo/A1304/A130401/13162573/",
+    "keywords": [
+      "焼肉"
+    ]
+  },
+  {
+    "place": "新宿",
     "title": "風雲児",
     "url": "https://retty.me/area/PRE13/ARE1/SUB113/100000003449/",
     "keywords": [
@@ -238,6 +263,15 @@
   },
   {
     "place": "新宿",
+    "title": "ベーカリー&レストラン 沢村 新宿",
+    "url": "https://tabelog.com/tokyo/A1304/A130403/13193553/",
+    "keywords": [
+      "パン",
+      "カフェ"
+    ]
+  },
+  {
+    "place": "新宿",
     "title": "三是寿司",
     "url": "https://gyazo.com/9af623bc87c497340b05e1343268663b",
     "keywords": [
@@ -262,6 +296,23 @@
   },
   {
     "place": "横浜",
+    "title": "パニーノジュスト そごう横浜店",
+    "url": "https://tabelog.com/kanagawa/A1401/A140101/14000641/",
+    "keywords": [
+      "カフェ",
+      "パン"
+    ]
+  },
+  {
+    "place": "横浜",
+    "title": "鮨 七海",
+    "url": "https://tabelog.com/kanagawa/A1401/A140101/14072347/",
+    "keywords": [
+      "寿司"
+    ]
+  },
+  {
+    "place": "横浜",
     "title": "星のうどん",
     "url": "https://tabelog.com/kanagawa/A1401/A140101/14000405/",
     "keywords": [
@@ -274,7 +325,8 @@
     "url": "https://tabelog.com/kanagawa/A1401/A140104/14029595/",
     "keywords": [
       "居酒屋",
-      "日本酒"
+      "日本酒",
+      "定食"
     ]
   },
   {
@@ -335,6 +387,15 @@
     "keywords": [
       "船",
       "クルージング"
+    ]
+  },
+  {
+    "place": "秋葉原",
+    "title": "Cafe MOCO",
+    "url": "https://tabelog.com/tokyo/A1310/A131001/13045716/",
+    "keywords": [
+      "パン",
+      "カフェ"
     ]
   },
   {
@@ -433,10 +494,19 @@
   },
   {
     "place": "藤沢",
+    "title": "セラフィーノ",
+    "url": "https://tabelog.com/kanagawa/A1404/A140404/14039203/",
+    "keywords": [
+      "イタリアン"
+    ]
+  },
+  {
+    "place": "藤沢",
     "title": "コーヒーアンドバナナ",
     "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100001289940/",
     "keywords": [
-      "カフェ"
+      "カフェ",
+      "スイーツ焼肉"
     ]
   },
   {
