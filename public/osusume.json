@@ -373,11 +373,72 @@
   },
   {
     "place": "藤沢",
-    "title": "あとで書く",
-    "url": "hoge.fuga.com",
+    "title": "らぁめん 鴇",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100001216001/",
     "keywords": [
-      "a",
-      "b"
+      "ラーメン"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "ラーメン二郎 湘南藤沢店",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100000009843/",
+    "keywords": [
+      "ラーメン"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "モキチクラフトビア",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100000667091/",
+    "keywords": [
+      "ビール",
+      "バー"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "ふじやす食堂",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100000852899/",
+    "keywords": [
+      "定食",
+      "寿司",
+      "海鮮"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "コーヒーアンドバナナ",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100001289940/",
+    "keywords": [
+      "カフェ"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "獺祭",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100000701558/",
+    "keywords": [
+      "居酒屋",
+      "日本酒"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "富貴堂",
+    "url": "https://retty.me/area/PRE14/ARE34/SUB31301/100000629481/",
+    "keywords": [
+      "うどん"
+    ]
+  },
+  {
+    "place": "藤沢",
+    "title": "エディーズブレッドミニ 藤沢店",
+    "url": "https://tabelog.com/kanagawa/A1404/A140404/14024325/",
+    "keywords": [
+      "青ブタ",
+      "聖地",
+      "パン"
     ]
   }
 ]
