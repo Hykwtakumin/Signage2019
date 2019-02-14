@@ -50,8 +50,8 @@
 
         /*参加者のプロフィールを取ってきて返す関数*/
         const getUserInfo = () => {
-            //const endPointUrl = `http://192.168.0.200/info`;
-            const endPointUrl = `/linksinfo.json`;
+            const endPointUrl = `http://192.168.0.200/info`;
+            //const endPointUrl = `/linksinfo.json`;
 
             return new Promise(async (resolve, reject) => {
                 try {
@@ -110,8 +110,8 @@
         /*ポーリングする関数*/
         const pollingLinks = async () => {
             /*192.168.0.200/linksから紐付いたlinksを取得する*/
-            //const endPointUrl = `http://192.168.0.200/links?id=${observeReaderId}&limit=100`;
-            const endPointUrl = `http://connectouch.org/links?id=${observeReaderId}&limit=100`;
+            const endPointUrl = `http://192.168.0.200/links?id=${observeReaderId}&limit=100`;
+            //const endPointUrl = `http://connectouch.org/links?id=${observeReaderId}&limit=100`;
             try {
                 const request = await fetch(endPointUrl);
                 /*新しい配列*/
