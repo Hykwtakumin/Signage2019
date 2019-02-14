@@ -52,7 +52,7 @@ export const readerTable = [
   {
     id: "192.168.0.211",
     desc: "大宮駅　青ブタポスター",
-    content: "./posterimg/aobuta.png",
+    content: "./posterimg/aobuta2.png",
   },
   {
     id: "192.168.0.212",
@@ -87,7 +87,7 @@ export const readerTable = [
   {
     id: "192.168.0.218",
     desc: "秋葉原駅 青ブタポスター",
-    content: "./posterimg/aobuta.png",
+    content: "./posterimg/aobuta2.png",
   },
   {
     id: "192.168.0.219",
