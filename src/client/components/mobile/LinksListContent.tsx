@@ -2,11 +2,14 @@ import * as React from "react";
 import { FC } from "react";
 import { css } from "emotion";
 import { List, Avatar, Icon, Spin, Button } from "antd";
-import { ConnecTouchLink } from "../../../share/types";
+import { ConnecTouchLink, CardInfo } from "../../../share/types";
 import "moment/locale/ja";
 import * as moment from "moment";
+import { readerTable } from "./readerTable";
+import { userInfoTable } from "./userInfoTable";
+import { cardIdList, readerIdList } from "./idList";
 
-const {} = React;
+const { useEffect } = React;
 
 const demo_icon = "./fakeUser.png";
 
@@ -37,9 +40,14 @@ const loadBtn = css({
 interface Props {
   links: ConnecTouchLink[];
   isLoading: boolean;
+  // userInfoTable: CardInfo[];
 }
 
-export const LinksListContent: FC<Props> = ({ links, isLoading }) => {
+export const LinksListContent: FC<Props> = ({
+  links,
+  isLoading,
+  // userInfoTable,
+}) => {
   const readable = (item: ConnecTouchLink) => {
     const readerId = item.link[0];
     const cardId = item.link[1];
@@ -50,6 +58,11 @@ export const LinksListContent: FC<Props> = ({ links, isLoading }) => {
       time,
     };
   };
+
+  useEffect(() => {
+    console.log(userInfoTable);
+    return () => console.log("end");
+  }, []);
 
   const SpinnerElm = <Icon type="loading" spin style={{ fontSize: "20vw" }} />;
 
@@ -64,11 +77,16 @@ export const LinksListContent: FC<Props> = ({ links, isLoading }) => {
       dataSource={links}
       renderItem={item => {
         const { cardId, readerId, time } = readable(item);
+        const userInfo = userInfoTable.find(i => i.id === cardId) || null;
+        const readerInfo = readerTable.find(i => i.id === readerId) || null;
+        const user = userInfo ? userInfo.email : "Guest";
+        const place = readerInfo ? readerInfo.desc : "Test Area";
+        const avatar = cardIdList.includes(cardId) ? userInfo.icon : demo_icon;
         return (
           <List.Item key={item.cardId}>
             <List.Item.Meta
-              avatar={<Avatar src={demo_icon} />}
-              title={<div>{cardId}</div>}
+              avatar={<Avatar src={avatar} />}
+              title={<div>{user}</div>}
               description={
                 item.url ? (
                   <div>
@@ -78,7 +96,7 @@ export const LinksListContent: FC<Props> = ({ links, isLoading }) => {
                   </div>
                 ) : (
                   <div>
-                    {readerId} にタッチしました。
+                    {place} にタッチしました。
                     <span style={{ float: "right" }}>{time}</span>
                   </div>
                 )

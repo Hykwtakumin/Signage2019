@@ -17,12 +17,15 @@
 
         .listItem {
             background-color: azure;
-            width: 23%;
-            height: 30%
+            text-align: center;
+            width: 30%;
+            height: 40%
         }
 
         .listItemImg {
-            object-fit: contain;
+            object-fit: cover;
+            width: 100%;
+            height: 80%;
         }
 
     </style>
@@ -31,8 +34,11 @@
         /*JSONを保存して格納する*/
         let osusumeList = [];
 
-        /*8番ラズパイのLinksを監視する*/
-        const observeReaderId = "192.168.0.208";
+        /*そのサイネージが表示するべき標準のリスト*/
+        const localOsusumeList = [];
+
+        /*監視するリーダーのID*/
+        let observeReaderId;
         /*取得したlinksをローカルの配列として保持する*/
         let storedLinks = [];
         /*参加者情報のテーブルを取ってくる*/
@@ -41,6 +47,7 @@
         /*参加者のプロフィールを取ってくる関数*/
         const getUserInfo = async () => {
             const endPointUrl = `http://192.168.0.200/info`;
+            //const endPointUrl = `/linksinfo.json`;
 
             const request = await fetch(endPointUrl).catch(e => console.error(e));
             const infoLinks = await request.json();
@@ -64,7 +71,7 @@
             const isContained = (list) => {
                 return new Promise((resolve, reject) => {
                     userFavWords.forEach( async (item) => {
-                        if (list.includes(item)) {
+                        if (list && list.includes(item)) {
                             resolve(true);
                         }
                     } );
@@ -76,16 +83,6 @@
             /*これも重複をなんとかする関数と同じ?*/
 
             const favShops = [];
-
-            // const favShops = osusumeList.reduce( async (prev, curr) => {
-            //     if (await isContained(curr.keywords)) {
-            //         console.log(`keyword detected! : ${curr.title}`)
-            //         prev.push(curr);
-            //     } else {
-            //         console.log(`keyword is not detected!`);
-            //     }
-            //     return prev
-            // }, []);
 
             osusumeList.forEach(async item => {
                 if (await isContained(item.keywords)) {
@@ -101,8 +98,8 @@
         /*ポーリングする関数*/
         const pollingLinks = async () => {
             /*192.168.0.200/linksから紐付いたlinksを取得する*/
-            /*Paramsにidを追加しない場合全てのリーダーのイベントを取得できる*/
             const endPointUrl = `http://192.168.0.200/links?id=${observeReaderId}&limit=100`;
+            //const endPointUrl = `http://connectouch.org/links?id=${observeReaderId}&limit=100`;
             try {
                 const request = await fetch(endPointUrl);
                 /*新しい配列*/
@@ -135,7 +132,7 @@
                 return prev
             }, []);
 
-            if (diffLinks.length != 0 && diffLinks.length < 2) {
+            if (diffLinks.length !== 0 && diffLinks.length < 2) {
                 console.log(`新しいタッチイベントが${diffLinks.length}件発生しました!`)
                 /*例えば自分が1番の場合は監視するフィルタも作れる*/
                 diffLinks.forEach(async link => {
@@ -149,6 +146,10 @@
                             renderGrid(osusumeList);
                         } else {
                             renderGrid(filteredList);
+                            /*一分後に戻す*/
+                            setTimeout(()=> {
+                                renderGrid(localOsusumeList)
+                            },1000 * 15);
                         }
                     }
                     /*ここでListを絞り込んだ上でLinkを描画する*/
@@ -189,8 +190,32 @@
         }
 
         window.onload = async () => {
-            const dataList = await fetch("osusume.json")
-            osusumeList = await dataList.json()
+            const request = await fetch("osusume.json");
+            dataList = await request.json();
+            /*まずURLによってフィルタする*/
+            const place = decodeURI(location.pathname.replace("/", ""));
+            console.log(`place:${place}`);
+
+            for (let shop of dataList) {
+                if (shop.place === place) {
+                    localOsusumeList.push(shop);
+                }
+            }
+
+            osusumeList = localOsusumeList;
+
+            if (place === "大宮") {
+                observeReaderId = "192.168.0.210";
+            } else if (place === "新宿") {
+                observeReaderId = "192.168.0.202";
+            } else if (place === "秋葉原") {
+                observeReaderId = "192.168.0.217";
+            } else if (place === "横浜") {
+                observeReaderId = "192.168.0.212";
+            } else if (place === "藤沢") {
+                observeReaderId = "192.168.0.219";
+            }
+
             console.dir(osusumeList);
             getUserInfo();
             /*取得したオススメJSONを描画する*/
