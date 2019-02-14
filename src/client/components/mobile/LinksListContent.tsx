@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FC } from "react";
 import { css } from "emotion";
-import { List, Avatar, Icon, Spin, Button } from "antd";
+import { List, Avatar, Icon, Spin, Button, Modal } from "antd";
 import { ConnecTouchLink, CardInfo } from "../../../share/types";
 import "moment/locale/ja";
 import * as moment from "moment";
@@ -9,9 +9,9 @@ import { readerTable } from "./readerTable";
 import { userInfoTable } from "./userInfoTable";
 import { cardIdList, readerIdList } from "./idList";
 
-const { useEffect } = React;
-
 const demo_icon = "./fakeUser.png";
+
+const { useState } = React;
 
 const linkListArea = css({
   width: "90vw",
@@ -59,11 +59,6 @@ export const LinksListContent: FC<Props> = ({
     };
   };
 
-  useEffect(() => {
-    console.log(userInfoTable);
-    return () => console.log("end");
-  }, []);
-
   const SpinnerElm = <Icon type="loading" spin style={{ fontSize: "20vw" }} />;
 
   return isLoading ? (
@@ -71,41 +66,46 @@ export const LinksListContent: FC<Props> = ({
       <Spin className={spinner} indicator={SpinnerElm} />
     </div>
   ) : (
-    <List
-      className={linkListArea}
-      itemLayout="vertical"
-      dataSource={links}
-      renderItem={item => {
-        const { cardId, readerId, time } = readable(item);
-        const userInfo = userInfoTable.find(i => i.id === cardId) || null;
-        const readerInfo = readerTable.find(i => i.id === readerId) || null;
-        const user = userInfo ? userInfo.email : "Guest";
-        const place = readerInfo ? readerInfo.desc : "Test Area";
-        const avatar = cardIdList.includes(cardId) ? userInfo.icon : demo_icon;
-        return (
-          <List.Item key={item.cardId}>
-            <List.Item.Meta
-              avatar={<Avatar src={avatar} />}
-              title={<div>{user}</div>}
-              description={
-                item.url ? (
-                  <div>
-                    <img src={item.url} style={{ width: "60vw" }} />
-                    <br />
-                    <span style={{ float: "right" }}>{time}</span>
-                  </div>
-                ) : (
-                  <div>
-                      <span style={{wordWrap: "break-word"}}><b>{user}</b> が <b>{place}</b></span><br /><span>でタッチ!</span>
-                      {/*<br />*/}
-                    <span style={{ float: "right" }}>{time}</span>
-                  </div>
-                )
-              }
-            />
-          </List.Item>
-        );
-      }}
-    />
+    <>
+      <List
+        className={linkListArea}
+        itemLayout="vertical"
+        dataSource={links}
+        renderItem={item => {
+          const { cardId, readerId, time } = readable(item);
+          const userInfo = userInfoTable.find(i => i.id === cardId) || null;
+          const readerInfo = readerTable.find(i => i.id === readerId) || null;
+          const user = userInfo ? userInfo.email : "Guest";
+          const place = readerInfo ? readerInfo.desc : "Test Area";
+          const avatar = cardIdList.includes(cardId)
+            ? userInfo.icon
+            : demo_icon;
+          const content = readerInfo ? readerInfo.content : "";
+          return (
+            <List.Item key={item.cardId}>
+              <List.Item.Meta
+                avatar={<Avatar src={avatar} />}
+                title={<strong>{user}</strong>}
+              />
+              {item.url ? (
+                <div>
+                  <img src={item.url} alt="" style={{ width: "60vw" }} />
+                  <br />
+                  <b style={{ float: "right" }}>{time}</b>
+                </div>
+              ) : (
+                <div style={{ wordWrap: "break-word" }}>
+                  <b>{user}</b> が <b>{place}</b> でタッチ！
+                  <br />
+                  <img src={content} alt="" style={{ marginTop: "3%" }} />
+                  <br />
+                  <b style={{ float: "right" }}>{time}</b>
+                </div>
+              )}
+            </List.Item>
+          );
+        }}
+      />
+    </>
   );
 };
