@@ -61,6 +61,7 @@
             const user = userInfoTable.find(it => {
                 return it.id === id
             });
+            document.getElementById("user").innerText = ` for ${user.email}`;
 
             const userFavWords = user.keywords;
 
@@ -149,6 +150,7 @@
                             /*一分後に戻す*/
                             setTimeout(()=> {
                                 renderGrid(localOsusumeList)
+                                document.getElementById("user").innerText = "";
                             },1000 * 15);
                         }
                     }
@@ -195,6 +197,7 @@
             /*まずURLによってフィルタする*/
             const place = decodeURI(location.pathname.replace("/", ""));
             console.log(`place:${place}`);
+            document.getElementById("place").innerText = place;
 
             for (let shop of dataList) {
                 if (shop.place === place) {
@@ -228,7 +231,7 @@
     </script>
 </head>
 <body>
-<h1>ConnecTouch Signage</h1>
+<h1><span id="place"></span>駅のおすすめ情報<span id="user"></span></h1>
 <div id="root"/>
 </body>
 </html>
