@@ -96,7 +96,8 @@ export const LinksListContent: FC<Props> = ({
                   </div>
                 ) : (
                   <div>
-                    {place} にタッチしました。
+                      <span style={{wordWrap: "break-word"}}><b>{user}</b> が <b>{place}</b></span><br /><span>でタッチ!</span>
+                      <br />
                     <span style={{ float: "right" }}>{time}</span>
                   </div>
                 )

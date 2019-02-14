@@ -59,7 +59,7 @@ export const LinksListWrapper: FC<{}> = () => {
 
   const polingLinks = async () => {
     const currentLinks = links;
-    const endPointUrl = `${fetchURL}/links?limit=${10}`;
+    const endPointUrl = `${fetchURL}/links?limit=${20}`;
     const request = await fetch(endPointUrl);
     if (request.status === 200) {
       try {
@@ -125,8 +125,10 @@ export const LinksListWrapper: FC<{}> = () => {
               </span>
               <br />
               <span>
-                <b>{place}</b> にタッチ！
+                <b>{place}</b> で
               </span>
+              <br />
+              <span>タッチ！</span>
             </div>
           ),
         });

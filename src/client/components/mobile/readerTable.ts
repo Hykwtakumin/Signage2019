@@ -13,7 +13,7 @@ export const readerTable = [
   },
   {
     id: "192.168.0.204",
-    desc: "大宮駅 サイネージストーリー",
+    desc: "大宮駅 撮影ブース",
   },
   {
     id: "192.168.0.205",
@@ -33,7 +33,7 @@ export const readerTable = [
   },
   {
     id: "192.168.0.209",
-    desc: "大宮駅 青ブタポスタ",
+    desc: "大宮駅 青ブタポスター",
   },
   {
     id: "192.168.0.210",
@@ -41,7 +41,7 @@ export const readerTable = [
   },
   {
     id: "192.168.0.211",
-    desc: "大宮駅　青ブタポスタ",
+    desc: "大宮駅　青ブタポスター",
   },
   {
     id: "192.168.0.212",
@@ -49,7 +49,7 @@ export const readerTable = [
   },
   {
     id: "192.168.0.213",
-    desc: "横浜駅 青ブタポスタ-",
+    desc: "横浜駅 青ブタポスター",
   },
   {
     id: "192.168.0.214",
@@ -75,4 +75,8 @@ export const readerTable = [
     id: "192.168.0.219",
     desc: "藤沢駅 鉄道博物館ポスター",
   },
+  {
+    id: "signagePhoto",
+    desc: "大宮駅 撮影ブース"
+  }
 ];
