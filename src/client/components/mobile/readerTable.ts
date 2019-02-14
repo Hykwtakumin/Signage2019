@@ -1,7 +1,7 @@
 export const readerTable = [
   {
     id: "192.168.0.201",
-    desc: "新宿駅 鉄道博物館ポスター",
+    desc: "",
   },
   {
     id: "192.168.0.202",
@@ -61,7 +61,7 @@ export const readerTable = [
   },
   {
     id: "192.168.0.216",
-    desc: "",
+    desc: "新宿駅 鉄道博物館ポスター",
   },
   {
     id: "192.168.0.217",
