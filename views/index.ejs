@@ -28,6 +28,10 @@
             height: 80%;
         }
 
+        .inVisibleItem {
+            display: none;
+        }
+
     </style>
 
     <script>
@@ -42,22 +46,27 @@
         /*取得したlinksをローカルの配列として保持する*/
         let storedLinks = [];
         /*参加者情報のテーブルを取ってくる*/
-        let userInfoTable = [];
+        //let userInfoTable = [];
 
-        /*参加者のプロフィールを取ってくる関数*/
-        const getUserInfo = async () => {
+        /*参加者のプロフィールを取ってきて返す関数*/
+        const getUserInfo = () => {
             const endPointUrl = `http://192.168.0.200/info`;
             //const endPointUrl = `/linksinfo.json`;
 
-            const request = await fetch(endPointUrl).catch(e => console.error(e));
-            const infoLinks = await request.json();
-
-            userInfoTable = infoLinks
-            console.dir(userInfoTable);
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const request = await fetch(endPointUrl);
+                    const infoLinks = await request.json();
+                    resolve(infoLinks);
+                } catch (error) {
+                    reject(error);
+                }
+            });
         };
 
         /*Listを絞り込む関数*/
         const fiterList = async (id) => {
+            const userInfoTable = await getUserInfo();
             const user = userInfoTable.find(it => {
                 return it.id === id
             });
@@ -83,17 +92,19 @@
             /*newLinksにあってoldLinksに無いものだけを集めた配列を作る*/
             /*これも重複をなんとかする関数と同じ?*/
 
-            const favShops = [];
+            const filteredShopList = [];
 
             osusumeList.forEach(async item => {
                 if (await isContained(item.keywords)) {
                     console.log(`keyword detected! : ${item.title}`);
-                    favShops.push(item);
+                    filteredShopList.push(item);
                 }
             });
 
             /*生成したものを返す*/
-            return favShops;
+            return new Promise( (resolve, reject) => {
+                resolve(filteredShopList);
+            });
         };
 
         /*ポーリングする関数*/
@@ -135,7 +146,6 @@
 
             if (diffLinks.length !== 0 && diffLinks.length < 2) {
                 console.log(`新しいタッチイベントが${diffLinks.length}件発生しました!`)
-                /*例えば自分が1番の場合は監視するフィルタも作れる*/
                 diffLinks.forEach(async link => {
                     /*リーダーIDが自分のIDと一致する場合*/
                     if (link.link[0] === observeReaderId) {
@@ -144,20 +154,90 @@
                         console.dir(filteredList);
                         if (filteredList.length === 0) {
                             /*推薦するものが無ければすべて表示する*/
-                            renderGrid(osusumeList);
+                            renderGrid(localOsusumeList);
+                            //switchVisibility(localOsusumeList);
                         } else {
                             renderGrid(filteredList);
+                            //switchVisibility(filteredList);
                             /*一分後に戻す*/
                             setTimeout(()=> {
-                                renderGrid(localOsusumeList)
+                                renderGrid(localOsusumeList);
+                                //switchVisibility(localOsusumeList)
                                 document.getElementById("user").innerText = "";
-                            },1000 * 15);
+                            },1000 * 10);
                         }
                     }
-                    /*ここでListを絞り込んだ上でLinkを描画する*/
                 })
             }
         }
+
+        // const renderFirstView = (list) => {
+        //     const container = document.getElementById("root");
+        //
+        //     if (list) {
+        //         list.forEach((item, index) => {
+        //             const newItem = document.createElement("div")
+        //             /*便宜的にURLをIDとする*/
+        //             newItem.id = item.url;
+        //             newItem.classList.add("listItem")
+        //             newItem.classList.add("visibleItem")
+        //
+        //             /*タイトル文字を生成*/
+        //             const title = document.createElement("h3")
+        //             title.innerText = item.title;
+        //
+        //             /*サムネイルを生成*/
+        //             const image = document.createElement("img")
+        //             image.src = `img/${encodeURI(item.title)}.jpg`;
+        //             image.classList.add("listItemImg");
+        //
+        //             /*合体させる*/
+        //             newItem.append(title)
+        //             newItem.append(image)
+        //
+        //             /*コンテナに追加*/
+        //             container.appendChild(newItem);
+        //         });
+        //     }
+        // };
+        //
+        // //const switchVisibility = (list) => {
+        //     /*まずgridItemを列挙する*/
+        //     const gridItem = Array.from(document.body.querySelectorAll("listItem"));
+        //     console.dir(gridItem);
+        //     gridItem.forEach(item => {
+        //         if (item.classList.contains("visibleItem")) {
+        //             item.classList.remove("visibleItem");
+        //         }
+        //     })
+        //     /*渡されたリストに該当するDOMを探索する*/
+        //     const visibleItemList = [];
+        //     const inVisibleItemList = [];
+        //     list.forEach(item => {
+        //         const visibleItem = document.getElementById(item.url);
+        //         if (visibleItem) {
+        //             visibleItemList.push(visibleItem);
+        //         }
+        //     });
+        //     console.dir(visibleItemList);
+        //     /*もしもinVisiblityItemクラスがあったら除去する*/
+        //     visibleItemList.forEach(item => {
+        //         item.classList.add("visibleItem");
+        //         if (item.classList.contains("inVisibleItem")) {
+        //             item.classList.remove("inVisibleItem");
+        //         }
+        //     })
+        //     /*その他のgridItemにinVisiblityItemを追加する*/
+        //     const inVisibleItem = gridItem.filter(item => {
+        //         return !list.includes(item.id);
+        //     });
+        //     inVisibleItem.forEach(item => {
+        //         if (!item.classList.contains("inVisibleItem")) {
+        //             item.classList.add("inVisibleItem");
+        //         }
+        //     });
+        // };
+
 
         const renderGrid = (list) => {
             const container = document.getElementById("root");
@@ -223,6 +303,7 @@
             getUserInfo();
             /*取得したオススメJSONを描画する*/
             renderGrid(osusumeList);
+            //renderFirstView(osusumeList);
             /*ポーリングする関数を毎秒呼び出す*/
             setInterval(() => {
                 pollingLinks();
