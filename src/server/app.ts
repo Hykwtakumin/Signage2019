@@ -37,6 +37,13 @@ const akihabara = encodeURI("秋葉原");
 const yokohama = encodeURI("横浜");
 const fujisawa = encodeURI("藤沢");
 
+// CORSを許可する
+app.use((req, res, next) =>  {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 app.get(`/${omiya}|${shinjuku}|${akihabara}|${yokohama}|${fujisawa}`, async (req, res) => {
     /*サイネージページを返す*/
     // res.render('signage', {
