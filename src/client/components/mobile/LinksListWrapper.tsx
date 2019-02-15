@@ -64,7 +64,7 @@ export const LinksListWrapper: FC<{}> = () => {
     if (request.status === 200) {
       try {
         const loadedLinks = (await request.json()) as ConnecTouchLink[];
-        getLinksDiff(currentLinks, loadedLinks);
+        // getLinksDiff(currentLinks, loadedLinks);
         setLinks(loadedLinks);
       } catch (err) {
         console.error(err);
